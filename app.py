@@ -88,7 +88,10 @@ def send_email(to_address, subject, body):
     message["From"] = st.secrets["GMAIL_ADDRESS"]
     message["To"] = to_address
 
-    with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
+    with smtplib.SMTP("smtp.gmail.com", 587, timeout=30) as server:
+        server.ehlo()
+        server.starttls()
+        server.ehlo()
 
         server.login(
             st.secrets["GMAIL_ADDRESS"],
